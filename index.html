@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Digital Garage</title>
 
@@ -14,22 +15,23 @@ body {
   font-family:Arial, sans-serif;
   background:#111;
   overflow:hidden;
-  transition: background 0.6s ease;
+  transition: background 0.5s ease;
 }
 
 #circle {
-  width:180px;
-  height:180px;
+  width:200px;
+  height:200px;
   border-radius:50%;
   background:linear-gradient(145deg,#222,#333);
   display:flex;
   justify-content:center;
   align-items:center;
-  font-size:18px;
+  font-size:20px;
   color:white;
   cursor:pointer;
-  box-shadow:0 10px 30px rgba(0,0,0,0.5);
-  transition: transform 0.2s ease;
+  box-shadow:0 15px 40px rgba(0,0,0,0.6);
+  user-select:none;
+  transition: transform 0.2s ease, opacity 0.6s ease;
 }
 
 #circle:active {
@@ -39,17 +41,17 @@ body {
 #cardContainer {
   position:absolute;
   opacity:0;
-  transform:translateY(40px) scale(0.9);
-  transition: all 0.7s cubic-bezier(.2,.8,.2,1);
+  transform:translateY(50px) scale(0.9);
+  transition: all 0.8s cubic-bezier(.2,.8,.2,1);
 }
 
 #card {
-  width:320px;
+  width:340px;
   background:#fff;
   color:#000;
   border-radius:18px;
   overflow:hidden;
-  box-shadow:0 25px 50px rgba(0,0,0,0.4);
+  box-shadow:0 30px 60px rgba(0,0,0,0.4);
 }
 
 #card img {
@@ -83,43 +85,46 @@ body {
 
 <script>
 
-let tapCount = 0;
+window.onload = function(){
 
-const colors = [
-  "#1e3c72",
-  "#2a5298",
-  "#0f2027",
-  "#203a43",
-  "#2c5364"
-];
+  let tapCount = 0;
+  const circle = document.getElementById("circle");
 
-document.getElementById("circle").addEventListener("click", function() {
+  const colors = [
+    "#1e3c72",
+    "#2a5298",
+    "#0f2027",
+    "#203a43",
+    "#2c5364"
+  ];
 
-  tapCount++;
+  circle.addEventListener("click", function(){
 
-  document.body.style.background = colors[tapCount-1] || "#000";
+    tapCount++;
 
-  this.innerText = 5 - tapCount > 0 ? 
-  "Tap " + (5 - tapCount) + " More" : 
-  "Unlocked";
+    document.body.style.background = colors[tapCount-1] || "#000";
 
-  if(tapCount === 5){
-    unlock();
+    if(tapCount < 5){
+      circle.innerText = "Tap " + (5 - tapCount) + " More";
+    } else {
+      circle.innerText = "Unlocked";
+      unlock();
+    }
+
+  });
+
+  function unlock(){
+
+    circle.style.transform = "scale(0)";
+    circle.style.opacity = "0";
+
+    setTimeout(function(){
+      document.getElementById("cardContainer").classList.add("reveal");
+    },600);
+
   }
 
-});
-
-function unlock(){
-
-  document.getElementById("circle").style.transition="all 0.6s ease";
-  document.getElementById("circle").style.transform="scale(0)";
-  document.getElementById("circle").style.opacity="0";
-
-  setTimeout(()=>{
-    document.getElementById("cardContainer").classList.add("reveal");
-  },600);
-
-}
+};
 
 </script>
 
