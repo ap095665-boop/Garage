@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Garage</title>
+
+<style>
+body {
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Arial, sans-serif;
+  background:#111;
+  overflow:hidden;
+  transition: background 0.6s ease;
+}
+
+#circle {
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  background:linear-gradient(145deg,#222,#333);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:18px;
+  color:white;
+  cursor:pointer;
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  transition: transform 0.2s ease;
+}
+
+#circle:active {
+  transform:scale(0.95);
+}
+
+#cardContainer {
+  position:absolute;
+  opacity:0;
+  transform:translateY(40px) scale(0.9);
+  transition: all 0.7s cubic-bezier(.2,.8,.2,1);
+}
+
+#card {
+  width:320px;
+  background:#fff;
+  color:#000;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 25px 50px rgba(0,0,0,0.4);
+}
+
+#card img {
+  width:100%;
+  display:block;
+}
+
+.subtitle {
+  padding:15px;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.reveal {
+  opacity:1 !important;
+  transform:translateY(0) scale(1) !important;
+}
+</style>
+</head>
+
+<body>
+
+<div id="circle">Tap 5 Times</div>
+
+<div id="cardContainer">
+  <div id="card">
+    <img src="https://via.placeholder.com/400x250">
+    <div class="subtitle">Secure Vault</div>
+  </div>
+</div>
+
+<script>
+
+let tapCount = 0;
+
+const colors = [
+  "#1e3c72",
+  "#2a5298",
+  "#0f2027",
+  "#203a43",
+  "#2c5364"
+];
+
+document.getElementById("circle").addEventListener("click", function() {
+
+  tapCount++;
+
+  document.body.style.background = colors[tapCount-1] || "#000";
+
+  this.innerText = 5 - tapCount > 0 ? 
+  "Tap " + (5 - tapCount) + " More" : 
+  "Unlocked";
+
+  if(tapCount === 5){
+    unlock();
+  }
+
+});
+
+function unlock(){
+
+  document.getElementById("circle").style.transition="all 0.6s ease";
+  document.getElementById("circle").style.transform="scale(0)";
+  document.getElementById("circle").style.opacity="0";
+
+  setTimeout(()=>{
+    document.getElementById("cardContainer").classList.add("reveal");
+  },600);
+
+}
+
+</script>
+
+</body>
+</html>
