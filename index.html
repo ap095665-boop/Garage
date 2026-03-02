@@ -6,6 +6,10 @@
 <title>Digital Garage</title>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin:0;
   height:100vh;
@@ -13,24 +17,29 @@ body {
   justify-content:center;
   align-items:center;
   font-family:Arial, sans-serif;
-  background:#111;
   overflow:hidden;
-  transition: background 0.5s ease;
+  background:linear-gradient(135deg,#0f2027,#203a43);
+  transition: background 0.6s ease;
 }
 
+/* BIG TAP CIRCLE */
 #circle {
-  width:200px;
-  height:200px;
+  width:220px;
+  height:220px;
   border-radius:50%;
-  background:linear-gradient(145deg,#222,#333);
+  background:linear-gradient(145deg,#1c1c1c,#2b2b2b);
   display:flex;
   justify-content:center;
   align-items:center;
   font-size:20px;
   color:white;
   cursor:pointer;
-  box-shadow:0 15px 40px rgba(0,0,0,0.6);
   user-select:none;
+  position:relative;
+  z-index:10;
+  box-shadow:
+    0 0 40px rgba(255,255,255,0.05),
+    0 20px 50px rgba(0,0,0,0.6);
   transition: transform 0.2s ease, opacity 0.6s ease;
 }
 
@@ -38,20 +47,23 @@ body {
   transform:scale(0.95);
 }
 
+/* CARD CONTAINER */
 #cardContainer {
   position:absolute;
   opacity:0;
-  transform:translateY(50px) scale(0.9);
-  transition: all 0.8s cubic-bezier(.2,.8,.2,1);
+  transform:scale(0.8) translateY(60px);
+  transition: all 0.9s cubic-bezier(.2,.8,.2,1);
+  pointer-events:none;
 }
 
+/* CARD */
 #card {
   width:340px;
-  background:#fff;
-  color:#000;
-  border-radius:18px;
+  background:#ffffff;
+  border-radius:20px;
   overflow:hidden;
-  box-shadow:0 30px 60px rgba(0,0,0,0.4);
+  box-shadow:0 40px 80px rgba(0,0,0,0.5);
+  animation: floatCard 3s ease-in-out infinite;
 }
 
 #card img {
@@ -60,14 +72,24 @@ body {
 }
 
 .subtitle {
-  padding:15px;
-  font-size:18px;
+  padding:18px;
+  font-size:20px;
   font-weight:bold;
+  color:#000;
 }
 
+/* Reveal Animation */
 .reveal {
   opacity:1 !important;
-  transform:translateY(0) scale(1) !important;
+  transform:scale(1) translateY(0) !important;
+  pointer-events:auto !important;
+}
+
+/* Floating animation */
+@keyframes floatCard {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
 }
 </style>
 </head>
@@ -89,20 +111,21 @@ window.onload = function(){
 
   let tapCount = 0;
   const circle = document.getElementById("circle");
+  const body = document.body;
 
-  const colors = [
-    "#1e3c72",
-    "#2a5298",
-    "#0f2027",
-    "#203a43",
-    "#2c5364"
+  const gradients = [
+    "linear-gradient(135deg,#1e3c72,#2a5298)",
+    "linear-gradient(135deg,#0f2027,#203a43)",
+    "linear-gradient(135deg,#232526,#414345)",
+    "linear-gradient(135deg,#42275a,#734b6d)",
+    "linear-gradient(135deg,#134E5E,#71B280)"
   ];
 
   circle.addEventListener("click", function(){
 
     tapCount++;
 
-    document.body.style.background = colors[tapCount-1] || "#000";
+    body.style.background = gradients[tapCount-1] || gradients[4];
 
     if(tapCount < 5){
       circle.innerText = "Tap " + (5 - tapCount) + " More";
