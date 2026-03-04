@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Digital Garage</title>
 
 <style>
@@ -17,9 +18,10 @@ flex-direction:column;
 font-family:Arial;
 overflow:hidden;
 transition:background .6s ease;
+background:black;
 }
 
-/* glowing pulse */
+/* glow pulse */
 
 @keyframes pulse{
 0%{box-shadow:0 0 10px rgba(255,255,255,.2)}
@@ -30,8 +32,8 @@ transition:background .6s ease;
 /* ripple */
 
 @keyframes ripple{
-0%{transform:scale(.5); opacity:.8}
-100%{transform:scale(3); opacity:0}
+0%{transform:scale(.5);opacity:.8}
+100%{transform:scale(3);opacity:0}
 }
 
 /* cinematic flash */
@@ -42,7 +44,7 @@ transition:background .6s ease;
 100%{opacity:0}
 }
 
-/* popup animations */
+/* text animations */
 
 @keyframes fadeIn{
 from{opacity:0}
@@ -60,7 +62,7 @@ to{opacity:1; transform:scale(1)}
 }
 
 @keyframes rotateIn{
-from{opacity:0; transform:rotate(-20deg)}
+from{opacity:0; transform:rotate(-25deg)}
 to{opacity:1; transform:rotate(0)}
 }
 
@@ -69,7 +71,14 @@ from{opacity:0; transform:rotateX(90deg)}
 to{opacity:1; transform:rotateX(0)}
 }
 
-/* top message card */
+/* vault door animation */
+
+@keyframes openVault{
+0%{transform:rotate(0)}
+100%{transform:rotate(-110deg)}
+}
+
+/* text card */
 
 #textCard{
 position:absolute;
@@ -104,7 +113,7 @@ position:relative;
 transform:scale(.94);
 }
 
-/* ripple element */
+/* ripple */
 
 .ripple{
 position:absolute;
@@ -127,7 +136,7 @@ opacity:0;
 pointer-events:none;
 }
 
-/* full popup overlay */
+/* popup */
 
 #popupScreen{
 position:absolute;
@@ -137,14 +146,13 @@ background:rgba(0,0,0,.9);
 display:flex;
 justify-content:center;
 align-items:center;
-flex-direction:column;
 color:white;
 font-size:28px;
 display:none;
 z-index:20;
 }
 
-/* item card screen */
+/* item screen */
 
 #itemScreen{
 position:absolute;
@@ -157,12 +165,32 @@ align-items:center;
 flex-direction:column;
 }
 
+/* vault door */
+
+#vaultDoor{
+width:220px;
+height:220px;
+border-radius:50%;
+background:linear-gradient(#777,#444);
+border:8px solid #222;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-weight:bold;
+margin-bottom:20px;
+transform-origin:left center;
+}
+
+/* item card */
+
 #itemCard{
 width:300px;
 background:white;
 border-radius:16px;
 overflow:hidden;
 box-shadow:0 25px 60px rgba(0,0,0,.45);
+display:none;
 }
 
 #itemCard img{
@@ -186,15 +214,13 @@ font-weight:bold;
 
 <div id="flash"></div>
 
-<!-- popup screen -->
-
 <div id="popupScreen">
-<div id="popupText">Item Found</div>
+<div>Item Found</div>
 </div>
 
-<!-- item screen -->
-
 <div id="itemScreen">
+
+<div id="vaultDoor">VAULT</div>
 
 <div id="itemCard">
 <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f">
@@ -212,8 +238,9 @@ const circle=document.getElementById("tapCircle")
 const text=document.getElementById("textCard")
 const flash=document.getElementById("flash")
 const popup=document.getElementById("popupScreen")
-const popupText=document.getElementById("popupText")
 const itemScreen=document.getElementById("itemScreen")
+const vault=document.getElementById("vaultDoor")
+const card=document.getElementById("itemCard")
 
 const gradients=[
 "linear-gradient(135deg,#ff512f,#dd2476)",
@@ -231,7 +258,7 @@ const messages=[
 "Unlocking vault..."
 ]
 
-const popupAnimations=[
+const animations=[
 "fadeIn",
 "slideDown",
 "zoomIn",
@@ -243,8 +270,6 @@ circle.onclick=function(){
 
 if(locked)return
 
-/* ripple */
-
 let ripple=document.createElement("span")
 ripple.className="ripple"
 circle.appendChild(ripple)
@@ -254,14 +279,12 @@ if(tap<5){
 
 document.body.style.background=gradients[tap]
 
-text.style.opacity=1
+text.style.opacity=0
+text.style.animation="none"
+void text.offsetWidth
+
 text.innerText=messages[tap]
-
-/* popup animation */
-
-popupText.style.animation="none"
-void popupText.offsetWidth
-popupText.style.animation=popupAnimations[tap]+" .6s forwards"
+text.style.animation=animations[tap]+" .6s forwards"
 
 tap++
 
@@ -271,11 +294,7 @@ locked=true
 
 setTimeout(()=>{
 
-/* flash */
-
 flash.style.animation="flash .6s"
-
-/* popup screen */
 
 popup.style.display="flex"
 
@@ -283,11 +302,23 @@ setTimeout(()=>{
 
 popup.style.display="none"
 
-/* item screen */
-
 itemScreen.style.display="flex"
 
-},1600)
+/* open vault door */
+
+setTimeout(()=>{
+
+vault.style.animation="openVault 1.4s forwards"
+
+setTimeout(()=>{
+
+card.style.display="block"
+
+},1200)
+
+},400)
+
+},1500)
 
 },700)
 
