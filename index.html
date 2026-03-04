@@ -4,14 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Secret Digital Garage</title>
+<title>Digital Garage</title>
 
 <style>
-
-*{
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-}
 
 body{
 margin:0;
@@ -20,75 +15,75 @@ display:flex;
 justify-content:center;
 align-items:center;
 flex-direction:column;
+font-family:Arial;
 overflow:hidden;
-transition:background 0.6s ease;
+transition:background 0.6s;
 }
 
-/* TOP TEXT CARD */
+/* top animated text card */
 
 #textCard{
 position:absolute;
-top:60px;
-padding:14px 26px;
-background:rgba(0,0,0,0.55);
+top:70px;
+background:rgba(0,0,0,0.6);
 color:white;
-border-radius:14px;
+padding:12px 22px;
+border-radius:10px;
 font-size:18px;
-backdrop-filter:blur(8px);
 opacity:0;
+z-index:5;
 }
 
-/* CENTER TAP CIRCLE */
+/* tap circle */
 
 #tapCircle{
 width:200px;
 height:200px;
 border-radius:50%;
-background:rgba(255,255,255,0.08);
+background:rgba(255,255,255,0.12);
 display:flex;
 align-items:center;
 justify-content:center;
+font-size:22px;
 color:white;
-font-size:20px;
 cursor:pointer;
 user-select:none;
-backdrop-filter:blur(6px);
-box-shadow:0 15px 50px rgba(0,0,0,0.4);
-transition:transform .2s ease;
+backdrop-filter:blur(8px);
+box-shadow:0 20px 60px rgba(0,0,0,0.4);
+z-index:10;
 }
 
 #tapCircle:active{
-transform:scale(.94);
+transform:scale(.95);
 }
 
-/* POPUP */
+/* popup */
 
 #popup{
 position:absolute;
-top:45%;
 background:#111;
 color:white;
-padding:16px 28px;
-border-radius:12px;
+padding:15px 26px;
+border-radius:10px;
 font-size:18px;
 opacity:0;
-transform:scale(.8);
+transform:scale(.7);
 transition:.4s;
+z-index:20;
 }
 
-/* IMAGE CARD */
+/* item card */
 
 #itemCard{
 position:absolute;
-bottom:90px;
+bottom:80px;
 width:300px;
 background:white;
 border-radius:16px;
 overflow:hidden;
-box-shadow:0 25px 60px rgba(0,0,0,0.45);
-opacity:0;
-transform:translateY(60px);
-transition:.6s;
+box-shadow:0 25px 60px rgba(0,0,0,.45);
+display:none;
+z-index:30;
 }
 
 #itemCard img{
@@ -101,49 +96,35 @@ padding:12px;
 font-weight:bold;
 }
 
-/* animations */
+/* text animations */
 
-.fadeIn{
-animation:fadeIn .5s forwards;
-}
+.fade{animation:fade .5s forwards}
+.slide{animation:slide .5s forwards}
+.zoom{animation:zoom .5s forwards}
+.rotate{animation:rotate .5s forwards}
+.flip{animation:flip .5s forwards}
 
-.slideDown{
-animation:slideDown .5s forwards;
-}
-
-.zoomIn{
-animation:zoomIn .5s forwards;
-}
-
-.rotateIn{
-animation:rotateIn .5s forwards;
-}
-
-.flipIn{
-animation:flipIn .5s forwards;
-}
-
-@keyframes fadeIn{
+@keyframes fade{
 from{opacity:0}
 to{opacity:1}
 }
 
-@keyframes slideDown{
+@keyframes slide{
 from{opacity:0; transform:translateY(-20px)}
 to{opacity:1; transform:translateY(0)}
 }
 
-@keyframes zoomIn{
+@keyframes zoom{
 from{opacity:0; transform:scale(.7)}
 to{opacity:1; transform:scale(1)}
 }
 
-@keyframes rotateIn{
+@keyframes rotate{
 from{opacity:0; transform:rotate(-20deg)}
 to{opacity:1; transform:rotate(0)}
 }
 
-@keyframes flipIn{
+@keyframes flip{
 from{opacity:0; transform:rotateX(90deg)}
 to{opacity:1; transform:rotateX(0)}
 }
@@ -190,14 +171,14 @@ const messages=[
 ]
 
 const animations=[
-"fadeIn",
-"slideDown",
-"zoomIn",
-"rotateIn",
-"flipIn"
+"fade",
+"slide",
+"zoom",
+"rotate",
+"flip"
 ]
 
-circle.onclick=()=>{
+circle.onclick=function(){
 
 if(tap<5){
 
@@ -205,8 +186,8 @@ document.body.style.background=gradients[tap]
 
 text.className=""
 void text.offsetWidth
-text.classList.add(animations[tap])
 
+text.classList.add(animations[tap])
 text.style.opacity=1
 text.innerText=messages[tap]
 
@@ -223,14 +204,13 @@ setTimeout(()=>{
 
 popup.style.opacity=0
 
-card.style.opacity=1
-card.style.transform="translateY(0)"
+card.style.display="block"
 
-circle.style.opacity=0
+circle.style.display="none"
 
 },1200)
 
-},600)
+},700)
 
 }
 
