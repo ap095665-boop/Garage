@@ -44,41 +44,22 @@ background:black;
 100%{opacity:0}
 }
 
+/* spin transform */
+
+@keyframes spinTransform{
+0%{transform:rotate(0deg) scale(1)}
+100%{transform:rotate(1080deg) scale(0)}
+}
+
 /* text animations */
 
-@keyframes fadeIn{
-from{opacity:0}
-to{opacity:1}
-}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes zoomIn{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+@keyframes rotateIn{from{opacity:0;transform:rotate(-25deg)}to{opacity:1;transform:rotate(0)}}
+@keyframes flipIn{from{opacity:0;transform:rotateX(90deg)}to{opacity:1;transform:rotateX(0)}}
 
-@keyframes slideDown{
-from{opacity:0; transform:translateY(-40px)}
-to{opacity:1; transform:translateY(0)}
-}
-
-@keyframes zoomIn{
-from{opacity:0; transform:scale(.6)}
-to{opacity:1; transform:scale(1)}
-}
-
-@keyframes rotateIn{
-from{opacity:0; transform:rotate(-25deg)}
-to{opacity:1; transform:rotate(0)}
-}
-
-@keyframes flipIn{
-from{opacity:0; transform:rotateX(90deg)}
-to{opacity:1; transform:rotateX(0)}
-}
-
-/* vault door animation */
-
-@keyframes openVault{
-0%{transform:rotate(0)}
-100%{transform:rotate(-110deg)}
-}
-
-/* text card */
+/* top text */
 
 #textCard{
 position:absolute;
@@ -165,21 +146,18 @@ align-items:center;
 flex-direction:column;
 }
 
-/* vault door */
+/* spinning vault circle */
 
-#vaultDoor{
-width:220px;
-height:220px;
+#vaultCircle{
+width:200px;
+height:200px;
 border-radius:50%;
-background:linear-gradient(#777,#444);
-border:8px solid #222;
+background:linear-gradient(#666,#333);
 display:flex;
 align-items:center;
 justify-content:center;
 color:white;
 font-weight:bold;
-margin-bottom:20px;
-transform-origin:left center;
 }
 
 /* item card */
@@ -220,7 +198,7 @@ font-weight:bold;
 
 <div id="itemScreen">
 
-<div id="vaultDoor">VAULT</div>
+<div id="vaultCircle">VAULT</div>
 
 <div id="itemCard">
 <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f">
@@ -239,7 +217,7 @@ const text=document.getElementById("textCard")
 const flash=document.getElementById("flash")
 const popup=document.getElementById("popupScreen")
 const itemScreen=document.getElementById("itemScreen")
-const vault=document.getElementById("vaultDoor")
+const vault=document.getElementById("vaultCircle")
 const card=document.getElementById("itemCard")
 
 const gradients=[
@@ -304,14 +282,15 @@ popup.style.display="none"
 
 itemScreen.style.display="flex"
 
-/* open vault door */
+/* spin transform */
 
 setTimeout(()=>{
 
-vault.style.animation="openVault 1.4s forwards"
+vault.style.animation="spinTransform 1.2s forwards"
 
 setTimeout(()=>{
 
+vault.style.display="none"
 card.style.display="block"
 
 },1200)
