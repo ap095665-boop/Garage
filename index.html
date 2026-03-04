@@ -3,175 +3,240 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Digital Garage</title>
+
+<title>Secret Digital Garage</title>
 
 <style>
-* { box-sizing: border-box; }
 
-body {
-  margin:0;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:Arial, sans-serif;
-  overflow:hidden;
-  background:#000;
+*{
+box-sizing:border-box;
+font-family:Arial, sans-serif;
 }
 
-/* Background layers for smooth fade */
-.bg-layer {
-  position:absolute;
-  width:100%;
-  height:100%;
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-  transition: opacity 0.8s ease;
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+overflow:hidden;
+transition:background 0.6s ease;
 }
 
-#bg1 { z-index:0; opacity:1; }
-#bg2 { z-index:0; opacity:0; }
+/* TOP TEXT CARD */
 
-/* Tap Circle */
-#circle {
-  width:220px;
-  height:220px;
-  border-radius:50%;
-  background:linear-gradient(145deg,#1c1c1c,#2b2b2b);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:20px;
-  color:white;
-  cursor:pointer;
-  user-select:none;
-  position:relative;
-  z-index:10;
-  box-shadow:
-    0 0 40px rgba(255,255,255,0.05),
-    0 20px 50px rgba(0,0,0,0.6);
-  transition: transform 0.2s ease, opacity 0.6s ease;
+#textCard{
+position:absolute;
+top:60px;
+padding:14px 26px;
+background:rgba(0,0,0,0.55);
+color:white;
+border-radius:14px;
+font-size:18px;
+backdrop-filter:blur(8px);
+opacity:0;
 }
 
-#circle:active {
-  transform:scale(0.95);
+/* CENTER TAP CIRCLE */
+
+#tapCircle{
+width:200px;
+height:200px;
+border-radius:50%;
+background:rgba(255,255,255,0.08);
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-size:20px;
+cursor:pointer;
+user-select:none;
+backdrop-filter:blur(6px);
+box-shadow:0 15px 50px rgba(0,0,0,0.4);
+transition:transform .2s ease;
 }
 
-/* Card Container */
-#cardContainer {
-  position:absolute;
-  opacity:0;
-  transform:scale(0.8) translateY(60px);
-  transition: all 1s cubic-bezier(.2,.8,.2,1);
-  pointer-events:none;
-  z-index:20;
+#tapCircle:active{
+transform:scale(.94);
 }
 
-#card {
-  width:360px;
-  background:#ffffff;
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:0 40px 80px rgba(0,0,0,0.5);
+/* POPUP */
+
+#popup{
+position:absolute;
+top:45%;
+background:#111;
+color:white;
+padding:16px 28px;
+border-radius:12px;
+font-size:18px;
+opacity:0;
+transform:scale(.8);
+transition:.4s;
 }
 
-#card img {
-  width:100%;
-  display:block;
+/* IMAGE CARD */
+
+#itemCard{
+position:absolute;
+bottom:90px;
+width:300px;
+background:white;
+border-radius:16px;
+overflow:hidden;
+box-shadow:0 25px 60px rgba(0,0,0,0.45);
+opacity:0;
+transform:translateY(60px);
+transition:.6s;
 }
 
-.subtitle {
-  padding:18px;
-  font-size:20px;
-  font-weight:bold;
-  color:#000;
+#itemCard img{
+width:100%;
+display:block;
 }
 
-.reveal {
-  opacity:1 !important;
-  transform:scale(1) translateY(0) !important;
-  pointer-events:auto !important;
+.subtitle{
+padding:12px;
+font-weight:bold;
 }
+
+/* animations */
+
+.fadeIn{
+animation:fadeIn .5s forwards;
+}
+
+.slideDown{
+animation:slideDown .5s forwards;
+}
+
+.zoomIn{
+animation:zoomIn .5s forwards;
+}
+
+.rotateIn{
+animation:rotateIn .5s forwards;
+}
+
+.flipIn{
+animation:flipIn .5s forwards;
+}
+
+@keyframes fadeIn{
+from{opacity:0}
+to{opacity:1}
+}
+
+@keyframes slideDown{
+from{opacity:0; transform:translateY(-20px)}
+to{opacity:1; transform:translateY(0)}
+}
+
+@keyframes zoomIn{
+from{opacity:0; transform:scale(.7)}
+to{opacity:1; transform:scale(1)}
+}
+
+@keyframes rotateIn{
+from{opacity:0; transform:rotate(-20deg)}
+to{opacity:1; transform:rotate(0)}
+}
+
+@keyframes flipIn{
+from{opacity:0; transform:rotateX(90deg)}
+to{opacity:1; transform:rotateX(0)}
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- Background Layers -->
-<div id="bg1" class="bg-layer"></div>
-<div id="bg2" class="bg-layer"></div>
+<div id="textCard"></div>
 
-<div id="circle">Tap 5 Times</div>
+<div id="tapCircle">Tap</div>
 
-<div id="cardContainer">
-  <div id="card">
-    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi4_9-cxLIbHyEjh7DY9k-0MM492CYFnv18jZWEKdIAeoefOeA6buR-7t2zW2-CcRYhdPb2uS7GIH2TjQrypB5N9EfBrgE8ElJ-n7Hd8uzWM8wYczlndStau049Ij0Te95VQ-Q8unyic5xRAldCX9Imk4aNwVrbiyxq-fe4cuKC2UARcxCKU6XmNAJK2cw/s1600/file_000000001368720693652074d42e904c.png">
-    <div class="subtitle">Secure Vault</div>
-  </div>
+<div id="popup">Item Found</div>
+
+<div id="itemCard">
+<img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f">
+<div class="subtitle">Secure Vault</div>
 </div>
 
 <script>
 
-window.onload = function(){
+let tap=0
 
-  let tapCount = 0;
-  let activeBg = 1;
+const circle=document.getElementById("tapCircle")
+const text=document.getElementById("textCard")
+const popup=document.getElementById("popup")
+const card=document.getElementById("itemCard")
 
-  const circle = document.getElementById("circle");
-  const bg1 = document.getElementById("bg1");
-  const bg2 = document.getElementById("bg2");
+const gradients=[
+"linear-gradient(135deg,#ff512f,#dd2476)",
+"linear-gradient(135deg,#36d1dc,#5b86e5)",
+"linear-gradient(135deg,#f7971e,#ffd200)",
+"linear-gradient(135deg,#00c6ff,#0072ff)",
+"linear-gradient(135deg,#8e2de2,#4a00e0)"
+]
 
-  const images = [
-    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhtmH59aj_3FJOSXvshOyZYJshLMQJefyJr6qociCQOJo6uz2k_bKHl6Iol6pKzE1wmBWCGlGHdbLi26SLmgvS44TIhrc9WetkYkrTyDg1OGekdJ9d1Uk0sBS7Y1IipUbo7mbzrabRwCuZsG0n0PXQ1E3cGhgCu3KUQQn-bO2ACg2w9LPJuKivqyj_xkyQ/s1600/file_000000006be07208a52cd6cd3be7d05d.png",
-    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYP-O_tA7JfUbKgN4X3PaLjD0dOAuT7HMS0o_MfkeTqGfXX7INSXhvqxKU6_3kpzcMuCtuCXKYUOHBuKWmuX-22WkQh1SFoYG0Lhuu24pdiOKQEqAXMF2H00iQL3M_78wxw8k7PwP4DzFI1yWbV_AknRj0wACSd39Z5XfqEyM8UprKGeDT2VLo-pAs22k/s1600/file_00000000e21c7208a420bc297a724f43.png",
-    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg9FMoK_H7_rQeOstpvW22I-jCgjP_v-CH_UQKQbhcsvLytJZnugxPCB2FQDshlnuvIA0Pp-ySWe9Lv8nSxd_vZAmOM18LzaIAaBkLPqRgMo_UwENwo3BaDVSMsAYe-ASXQo7gcnpA9ISWVrF19VKxZLEyCfHJhghDtFRe2dI2McfLTQeKSd4Tb3iDlX74/s1600/file_00000000c2707207bcfb771bc7b3f084.png",
-    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEja4BubwSTnthpdoeXKUasUIuC5C5ihpqsf0xQRF4zbaR4-4Ts82Gl8R5XkOW982Dj8gPpUNgQKPymfpJUZdrOsH44uYZ48srMYfGwmeuywmEG7OXx2eueqo6B44V2FpKMHL41FqWuMs4mVjuJO6F9P10pxYK8u5-33YRUTZopJcWfEq-e6q8K7qRue0b0/s1600/file_000000000234720895fc08d76fdf97e7.png",
-    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitJByoktU-N5Kc6tf49-5d9L4FCVrZgQO876mfm02wwFUTVOx5H1-OW9s0eUXT9Q63w6_li0PFEfJETsOkip77LBkPjc7_UMXPuPiBwee50H7c9zezm4t8TSD-tgvXAjfGrNtU6g5Qo5BgzSg3lc7vTyuCcEH2WM3lLdGDUY6yNVCKsQovbUxpZlfJgQ8/s1600/file_000000002ef07208bb527f8f11d96899.png"
-  ];
+const messages=[
+"Accessing garage...",
+"Scanning system...",
+"Decrypting layers...",
+"Verifying tools...",
+"Unlocking vault..."
+]
 
-  bg1.style.backgroundImage = "url('" + images[0] + "')";
+const animations=[
+"fadeIn",
+"slideDown",
+"zoomIn",
+"rotateIn",
+"flipIn"
+]
 
-  circle.addEventListener("click", function(){
+circle.onclick=()=>{
 
-    if(tapCount < 4){
+if(tap<5){
 
-      tapCount++;
+document.body.style.background=gradients[tap]
 
-      circle.innerText = "Tap " + (5 - tapCount) + " More";
+text.className=""
+void text.offsetWidth
+text.classList.add(animations[tap])
 
-      let nextImage = images[tapCount];
+text.style.opacity=1
+text.innerText=messages[tap]
 
-      if(activeBg === 1){
-        bg2.style.backgroundImage = "url('" + nextImage + "')";
-        bg2.style.opacity = 1;
-        bg1.style.opacity = 0;
-        activeBg = 2;
-      } else {
-        bg1.style.backgroundImage = "url('" + nextImage + "')";
-        bg1.style.opacity = 1;
-        bg2.style.opacity = 0;
-        activeBg = 1;
-      }
+tap++
 
-    } else {
-      tapCount++;
-      circle.innerText = "Unlocked";
-      unlock();
-    }
+if(tap==5){
 
-  });
+setTimeout(()=>{
 
-  function unlock(){
-    circle.style.transform = "scale(0)";
-    circle.style.opacity = "0";
+popup.style.opacity=1
+popup.style.transform="scale(1)"
 
-    setTimeout(function(){
-      document.getElementById("cardContainer").classList.add("reveal");
-    },700);
-  }
+setTimeout(()=>{
 
-};
+popup.style.opacity=0
+
+card.style.opacity=1
+card.style.transform="translateY(0)"
+
+circle.style.opacity=0
+
+},1200)
+
+},600)
+
+}
+
+}
+
+}
 
 </script>
 
